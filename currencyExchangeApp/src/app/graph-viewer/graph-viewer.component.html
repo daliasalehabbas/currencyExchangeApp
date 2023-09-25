@@ -1,0 +1,120 @@
+<style>
+  .content {
+    display: flex;
+    margin: 82px auto 32px;
+    padding: 0 16px;
+    max-width: 960px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+
+  .graph-container {
+    display: flex;
+    margin: 82px auto 32px;
+    padding: 0 16px;
+    max-width: 960px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .button-row {
+    display: flex;
+    max-width: 800px;
+    flex-direction: row;
+    align-items: center;
+  }
+  .selection-form{
+    margin-top: 30px;
+  }
+
+  .select-header{
+    color: #2c2ea1;
+  }
+  
+  .fav{
+    color: black
+  }
+
+  .fav:hover{
+    color: pink
+  }
+</style>
+
+<div class="content" role="main">
+
+  <h3 class="select-header">Select a Coin and Currency</h3> 
+
+  <form class='selection-form'>
+    <div class="row">
+      <div class="col-6">
+        <mat-form-field appearance="fill">
+          <mat-label>Select base currency</mat-label>
+          <mat-select [(value)]="base">
+            <mat-optgroup label="Favourites">
+              <mat-option *ngFor="let favs of get_favourite_bases()" [value]="favs">{{favs}}</mat-option>
+            </mat-optgroup>
+            <mat-optgroup label="All">
+              <mat-option *ngFor="let curr of currencies" [value]="curr">{{curr}}</mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field appearance="fill">
+          <mat-label>Select cryptocurrency</mat-label>
+          <mat-select [(value)]="symbol">
+            <mat-optgroup label="Favourites">
+              <mat-option *ngFor="let favs of get_favourite_symbols()" [value]="favs">{{favs}}</mat-option>
+            </mat-optgroup>
+            <mat-optgroup label="All">
+              <mat-option *ngFor="let cryp of cryptos" value={{cryp}}>{{cryp}}</mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <button mat-icon-button (click)="add_favourite_base(base)">
+          <mat-icon class="fav">favorite</mat-icon> Add to favourites
+        </button>
+      </div>
+      <div class="col-6">
+        <button mat-icon-button (click)="add_favourite_symbol(symbol)">
+          <mat-icon class="fav">favorite</mat-icon> Add to favourites
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <button mat-icon-button (click)="remove_favourite_bases()">
+          <mat-icon>delete</mat-icon> Remove all favourites
+        </button>
+      </div>
+      <div class="col-6">
+        <button mat-icon-button (click)="remove_favourite_symbols()">
+          <mat-icon>delete</mat-icon> Remove all favourites
+        </button>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+
+<div class='graph-container'>
+  <canvas id='canvas' max-height='350' max-width='400'>
+    {{chart}}
+  </canvas>
+  <div class="button-row">
+    <button mat-button style="margin-right:40px" (click)="set_duration('default')">24 Hours</button>
+    <button mat-button style="margin-right:40px" (click)="set_duration('week')" >Week</button>
+    <button mat-button style="margin-right:40px" (click)="set_duration('month')">Month</button>
+    <button mat-button style="margin-right:40px" (click)="set_duration('this year')">This Year</button>
+    <button mat-button style="margin-right:40px" (click)="set_duration('1 year')">1 Year</button>
+    <button mat-button style="margin-right:40px" (click)="set_duration('3 years')">3 Years</button>
+    <button mat-button style="margin-right:40px" (click)="set_duration('5 years')">5 Years</button>
+    <button mat-button  (click)="set_duration('all time')">Max</button>
+  </div>
+</div>

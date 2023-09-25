@@ -1,0 +1,159 @@
+
+<style>
+.setHeight {
+  height: 34px;
+}
+
+.button{
+    width: 153px;
+    height: 34px;
+    margin-top: 10px;
+    font-size: medium;
+
+}
+.button2{
+  width: 70px;
+  height: 30px;
+  margin-top: 10px;
+  font-size: small;
+  font: caption;
+  background-color: goldenrod;
+  color: white;
+  align-items: center;
+
+}
+
+
+.button2:hover{
+  background-color: rgb(140, 104, 14) ;
+}
+
+</style>
+<style>
+    .main {
+      margin: 100px auto;
+      /* padding: 0 16px;*/
+      max-width: 1200px; 
+      /* size: 500px; */
+      /* background-color: red; */
+      /* flex-direction: column; */
+      /* align-items: center; */
+    }
+    /* .custom {
+      height: 500px;
+    } */
+
+
+  .bton {
+  /*background-color: DodgerBlue; /* Blue background */
+  margin-top: 20px;
+  margin-left:-4px;
+  background-color: #F8F9FA;
+  border: none; /* Remove borders */
+  color: black; /* White text */
+  /*padding: 12px; /*Some padding */
+  font-size: 16px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  
+}
+
+/* Darker background on mouse-over */
+/* .bton:hover {
+  background-color: RoyalBlue;
+} */
+
+.bton:hover i{
+  /* color: #575F65; */
+  color: goldenrod
+  
+}
+  </style>
+
+
+<!-- ngClass="row main jumbotron custom" -->
+<div  ngClass="row h-200 p-5 bg-light border rounded-100 shadow-lg main"
+>
+<div class="alert alert-primary alert-dismissible" role="alert" *ngFor="let message of messages" >
+ <strong>Currency Alarm!</strong> <br>
+  {{message}}
+  <button (click)="close(message)" type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+    <div>
+    <form class="col" >
+        <label for="power"> Total</label>
+        <input [(ngModel)]="power" type="number" placeholder="0" class="form-control form-control-lg shadow-sm" id="power" name="power" #totalInput="ngModel" min="0" required>
+    </form>
+    <div class='alert alert-danger' *ngIf="totalInput.touched && !totalInput.valid">
+      You need to pick a valid total
+    </div>
+
+    </div>
+
+
+    <form class="col">
+    <label for="power"> From currency</label>
+    <select class="form-select form-select-lg mb-3 shadow"    id="power" #from required>
+    <option *ngFor="let fromcurr of currencies" [value]="fromcurr">{{fromcurr}}</option>
+    </select>
+    </form>
+
+    <form class="col">
+    <label for="power"> To currency</label>
+    <select class="form-select form-select-lg mb-3 shadow" id="power" #to required>
+    <option *ngFor="let toCurr of cryptos" [value]="toCurr">{{toCurr}}</option>
+    </select>
+    </form>
+
+
+     <p>
+       
+      <button type="button" class="btn btn-secondary shadow-lg button" (click)="getValues(totalInput.value, from.value, to.value)" [attr.aria-expanded]="!isCollapsed"
+        aria-controls="collapseExample">
+        Convert
+      </button>
+    </p>
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+      <div class="card">
+        <div class="card-body">
+          {{total}} {{to.value}}
+        </div>
+      </div>
+    </div>
+    
+    
+
+    <p>
+      <button type="button" style="border: none;" class="bton" (click)="toggleAlarm()" [attr.aria-expanded]="!isAlarmCollapsed"
+        aria-controls="collapseExample">
+      <i class="fa fa-bell"> </i> Create Alarm
+      </button>
+    </p>
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isAlarmCollapsed">
+      <div class="card">
+        <div class="card-body">
+          <form class="col">
+            <label for="power">Pick currency you want to observe</label>
+            <select class="form-select form-select-lg mb-3 shadow" id="power" #cryptoAlarm required>
+            <option  *ngFor="let toCurr of cryptos" [value]="toCurr">{{toCurr}}</option>
+            </select>
+            </form>
+
+            <form class="col" >
+              <label for="power">Price</label>
+              <input [(ngModel)]="power" type="number" placeholder="SEK" class="form-control form-control-lg shadow-sm" id="power" name="power" #alarmPrice="ngModel" min="0" required>
+          </form>
+          <div class='alert alert-danger' *ngIf="totalInput.touched && !totalInput.valid">
+            You need to pick a valid total
+          </div>
+        </div>
+      </div>
+      <button class="btn shadow-lg button2" (click)="addToAlarmList(cryptoAlarm.value, alarmPrice.value)">Add</button>
+    </div>
+  
+
+</div>
+
+
+
